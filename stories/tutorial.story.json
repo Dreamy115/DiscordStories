@@ -1,0 +1,65 @@
+{
+  "Variables": {"test":3},
+  "Description": "Tells you how to use the player.",
+  "Frames": {
+    "index": {
+      "dialog": {
+        "title": "Welcome to Stories!",
+        "text": "In this tutorial, you will learn how to progress and advance through stories.\nFirstly, to advance, you need to react under this message with an option accordingly."
+      },
+      "options": [
+        {
+          "next": "index2",
+          "text": "Alright, what's next?"
+        }
+      ]
+    },
+    "index2": {
+      "dialog": {
+        "title": "Here comes 'choose your own adventure' part.",
+        "text": "Every option you choose will affect the outcome of the story. This one is just a test though."
+      },
+      "options": [
+        {
+          "next": "end",
+          "text": "Got it.",
+          "varchanges": [
+            {
+              "var": "test",
+              "value": 2,
+              "type": "add"
+            }
+          ]
+        },
+        {
+          "next": "end",
+          "text": "Mhmm...",
+          "qualify": [
+            {
+              "var": "test",
+              "value": 4,
+              "check": "greater"
+            }
+          ]
+        },
+        {
+          "next": "end",
+          "text": "Yea.",
+          "qualify": [
+            {
+              "var": "test",
+              "value": 0,
+              "check": "greater"
+            }
+          ]
+        }
+      ]
+    },
+    "end": {
+      "dialog": {
+        "title": "End!",
+        "text": "For now, it's all. Yes it's THAT simple! But sometimes, some options will be hidden from you if you do not meet some conditions."
+      }
+    }
+  }
+}
