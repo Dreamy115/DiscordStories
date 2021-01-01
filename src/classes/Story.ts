@@ -66,6 +66,7 @@ class Story {
     if(Frame.dialog.image) Embed.setThumbnail(Frame.dialog.image);
     if(Frame.dialog.color) Embed.setColor(Frame.dialog.color);
 
+    var react:string[] = [];
     var opts = '';
     const opt = (o) =>{
       if(!Frame.options) return;
@@ -93,6 +94,7 @@ class Story {
       }
 
       opts += `${General.emojis.options[o]} ${Frame.options[o].text}\n`;
+      react.push(General.emojis.options[o]);
       return 0;
     }
     for(const o in Frame.options){
@@ -111,7 +113,10 @@ class Story {
     }
 
     try {
-      this.User.send(Embed);
+      let s = await this.User.send(Embed);
+      for(const e of react){
+        await s.react(e).catch(console.error);
+      }
     } catch(e) {
       console.error(e);
     }

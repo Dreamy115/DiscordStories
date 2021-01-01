@@ -25,6 +25,8 @@ Bot.on('ready',async()=>{
     if(message.channel.type !== 'dm') return;
     if(message.author.id === Bot.user?.id) return;
 
+    message.channel.messages.fetch().catch(console.error);
+
     let args:Array<any> = [];
     for(const arg of message.content.split(/ +/)){
       if(arg != undefined){
@@ -56,10 +58,10 @@ Bot.on('ready',async()=>{
   });
 
   Bot.on('messageReactionAdd',async(reaction,user)=>{
-    try {
-    if(reaction.message.guild || reaction.message.author.id !== Bot.user?.id || reaction.me) return;
+    if(reaction.message.guild || reaction.message.author.id !== Bot.user?.id || reaction.count === null || reaction.count < 2) return;
     console.log(reaction,user);
-    
+
+    try {
     let story = new Story(undefined,user.id);
     let got = await story.get_settings(db)
 
