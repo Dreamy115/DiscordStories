@@ -112,3 +112,8 @@ out/
 # Save
 save.dab
 save.dab-journal
+
+# stories
+stories/*
+!stories/structure.md
+!stories/tutorial.story.json
