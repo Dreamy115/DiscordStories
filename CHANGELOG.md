@@ -1,3 +1,6 @@
+## 0.2.1
+* Fixed help crash on commands without parameters
+
 ## 0.2.0
 * Added placeholders and 'not' check.
 * Added multi story support

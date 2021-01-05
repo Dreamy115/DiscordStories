@@ -25,7 +25,7 @@ async function run(db:SQL.Database<sqlite3.Database, sqlite3.Statement>,message:
     for(const p of cmd.params){
       str += `${p.required ? '<' : '['}${p.name}:${p.type}${p.required ? '>' : ']'} - ${p.description}\n`;
     }
-    Embed.addField('Parameters',str);
+    if(str != '') Embed.addField('Parameters',str);
   }else{
     Embed.setTitle('Commands List');
     var cmdnames:string[] = [];
