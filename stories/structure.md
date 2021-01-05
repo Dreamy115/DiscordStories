@@ -7,6 +7,8 @@
     Supported types are string and number
     Please do not mix them as you might break the bot
     */
+    "test": "hello",
+    "state": 1
   },
   "Description": "", // Describe your Story here
   "Frames": { 
@@ -17,17 +19,18 @@
     "index": { // Stories always begin with a frame 'index'
       "dialog": {
         "title": "Title", // The title of the text
-        "text": "Lorem ipsum" // The actual text show in the box
+        "text": "Lorem ipsum" // The actual text show in the box. You can use placeholders that will get replaced by variables. Format like so "{variable}"
       },
       "options": [
         {
           "next": "prologue", // The frame the player will advance to after picking it
-          "text": "Start", // The text that shows next to the option indicator
+          "text": "Start", // The text that shows next to the option indicator, you can use placeholders here too.
+          "gray": true, // Makes the option unpickable instead of completly hiding it
           "qualify": [ // All conditions must be met in order for the option to show up. Have at least one option get to show up 100% of the time or it could cause some strange effects.
             {
               "var": "test", // Name of the variable to be checked
               "value": 5, // Value can be a string or a number. If checking for strings, only exact matches are available
-              "check": "greater" // ... "lesser" or "equal" - Type of check
+              "check": "greater" // ... "lesser", "equal" or "not" - Type of check
             }
             // ...
           ],

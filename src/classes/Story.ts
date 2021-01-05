@@ -60,9 +60,17 @@ class Story {
     this.User = await client.users.fetch(this.Player,true);
     const Frame = this.Frames[frame];
 
+    var text = Frame.dialog.text;
+
+    if(this.Variables){
+      for(const v in this.Variables){
+        text = General.replaceAll(text,`{${v}}`,String(this.Variables[v]));
+      }
+    }
+
     let Embed = new MessageEmbed()
     .setTitle(Frame.dialog.title)
-    .setDescription(Frame.dialog.text);
+    .setDescription(text);
     if(Frame.dialog.image) Embed.setThumbnail(Frame.dialog.image);
     if(Frame.dialog.color) Embed.setColor(Frame.dialog.color);
 
@@ -79,6 +87,9 @@ class Story {
               default:
                 if(this.Variables[q.var] !== q.value) return 1;
                 break;
+              case 'not':
+                if(this.Variables[q.var] === q.value) return 1;
+                break;
               case 'greater':
                 console.log(this.Variables[q.var])
                 if(this.Variables[q.var] <= q.value) return 1;
@@ -88,17 +99,29 @@ class Story {
                 break;
             }
           }else{
-            if(q.value !== this.Variables[q.var]) return 1;
+            switch(q.check){
+              default:
+                if(q.value !== this.Variables[q.var]) return 1;
+                break;
+              case 'not':
+                if(q.value === this.Variables[q.var]) return 1;
+                break;
+            }
           }
         }
       }
 
-      opts += `${General.emojis.options[o]} ${Frame.options[o].text}\n`;
-      react.push(General.emojis.options[o]);
       return 0;
     }
     for(const o in Frame.options){
-      opt(o);
+      if(opt(o) == 0){
+        opts += `${General.emojis.options[o]} ${Frame.options[o].text}\n`;
+        react.push(General.emojis.options[o]);
+        continue;
+      }
+      if(Frame.options[o].gray){
+        opts += `*${General.emojis.lock} ${Frame.options[o].text}*\n`;
+      }
     }
 
     if(Frame.options !== undefined){
@@ -139,13 +162,14 @@ interface Option {
   next:string,
   text:string,
   qualify?:Check[],
-  varchanges?:Changes[]
+  varchanges?:Changes[],
+  gray:boolean|undefined
 }
 
 interface Check {
   var:string,
   value:number|string,
-  check:'greater'|'lesser'|'equal'
+  check:'greater'|'lesser'|'equal'|'not'
 }
 
 interface Changes {

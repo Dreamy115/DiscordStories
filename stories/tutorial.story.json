@@ -17,7 +17,7 @@
     "index2": {
       "dialog": {
         "title": "Here comes 'choose your own adventure' part.",
-        "text": "Every option you choose will affect the outcome of the story. This one is just a test though."
+        "text": "Every option you choose will affect the outcome of the story. This one is just a test though. An option can be grayed out or hidden if some contidions aren't met."
       },
       "options": [
         {
@@ -33,7 +33,8 @@
         },
         {
           "next": "end",
-          "text": "Mhmm...",
+          "text": "Grayed out?",
+          "gray": true,
           "qualify": [
             {
               "var": "test",
@@ -44,7 +45,7 @@
         },
         {
           "next": "end",
-          "text": "Yea.",
+          "text": "Alright.",
           "qualify": [
             {
               "var": "test",
