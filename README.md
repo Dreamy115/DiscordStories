@@ -15,7 +15,9 @@ Frames:
   index: # All Stories begin with an *index* Frame
     dialog: # the Dialog is the actual message the Discord bot will send
       title: Title of the Dialog
-      text: Body of the Dialog. For both of them see official discord documentation for character limits
+      text: |-
+        Body of the Dialog. For both of them see official discord documentation for character limits.
+        You can also show a variable with a placeholder; test = {test}
     options: # Omit *options* entirely if you want to make an EndFrame
       # This is the most fun part. An Option is a user's choice. There can be only one, or multiple. They advance to other Frames.
       # They even have conditions and variable changes, but to that in a sec.

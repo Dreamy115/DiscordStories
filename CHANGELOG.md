@@ -1,3 +1,6 @@
+## 1.0.1
+* Added placeholders into documentation
+
 ## 1.0.0
 * Basic YAML support
 * Added README documentation
