@@ -115,5 +115,4 @@ save.dab-journal
 
 # stories
 stories/*
-!stories/structure.md
-!stories/tutorial.story.json
+!stories/tutorial.story.*

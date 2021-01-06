@@ -1,3 +1,7 @@
+## 1.0.0
+* Basic YAML support
+* Added README documentation
+
 ## 0.2.1
 * Fixed help crash on commands without parameters
 
