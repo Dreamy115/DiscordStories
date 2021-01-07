@@ -12,6 +12,7 @@ class Story {
   CurrentFrame: string;
   Variables: General.LooseObject|null;
   User: null|User;
+  LastMessage: null|string;
   /**
    * @param object The '.story.json' object. Check for integrity before loading cuz I'm too lazy to code that in.
    * @param player Discord ID of the player.
@@ -29,6 +30,7 @@ class Story {
 
     this.Player = player;
     this.CurrentFrame = 'index';
+    this.LastMessage = null;
     
     this.User = null;
   }
@@ -50,7 +52,7 @@ class Story {
   }
   async save_settings(db:SQL.Database<sqlite3.Database, sqlite3.Statement>){
     await this.delete_settings(db);
-    return db.run('INSERT INTO OngoingStories ("CurrentFrame","Variables","Player","Frames") VALUES(?,?,?,?)',[this.CurrentFrame,JSON.stringify(this.Variables),this.Player,JSON.stringify(this.Frames)])
+    return db.run('INSERT INTO OngoingStories ("CurrentFrame","Variables","Player","Frames","LastMessage") VALUES(?,?,?,?,?)',[this.CurrentFrame,JSON.stringify(this.Variables),this.Player,JSON.stringify(this.Frames),this.LastMessage])
   }
   async delete_settings(db:SQL.Database<sqlite3.Database, sqlite3.Statement>){
     return db.run('DELETE FROM OngoingStories WHERE Player = ?',[this.Player])
@@ -140,8 +142,32 @@ class Story {
       for(const e of react){
         await s.react(e).catch(console.error);
       }
+      this.LastMessage = s.id;
+      this.save_settings(db);
     } catch(e) {
       console.error(e);
+    }
+  }
+  check_integrity(){
+    if(this.Frames == null) throw new Error('Integrity Error; Frames are not present.');
+    if(this.Variables != null){
+      for(const v in this.Variables){
+        if(typeof this.Variables[v] !== 'number' && typeof this.Variables[v] !== 'string') throw new Error(`Integrity Error; Unsupported variable type ${typeof this.Variables[v]} (${v})`);
+      }
+    }
+    for(const f in this.Frames){
+      const frame = this.Frames[f];
+      if(frame.dialog === undefined) throw new Error(`Integrity Error; Frame Dialog ${f}; undefined`);
+      if(frame.dialog.title === undefined || frame.dialog.title === null) throw new Error(`Integrity Error; Frame Dialog ${f}; invalid title`);
+      if(frame.dialog.text === undefined || frame.dialog.text === null) throw new Error(`Integrity Error; Frame Dialog ${f}; invalid body`);
+      if(frame.options !== undefined){
+        for(const o in frame.options){
+          const opt = frame.options[o];
+          if(typeof opt.next !== 'string') throw new Error(`Integrity Error; Frame Dialog ${f} Option ${o}; invalid next type. Should be string`);
+          if(opt.gray !== undefined && typeof opt.gray !== 'boolean') throw new Error(`Integrity Error; Frame Dialog ${f} Option ${o}; invalid gray type. Should be undefined or boolean`);
+          if(typeof opt.text !== 'string') throw new Error(`Integrity Error; Frame Dialog ${f} Option ${o}; invalid text type. Should be string`);
+        }
+      }
     }
   }
 }

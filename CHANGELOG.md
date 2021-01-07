@@ -1,3 +1,7 @@
+## 1.0.2
+* Reaction protection. Bot only reacts to last message it sent.
+* Refresh if bot doesn't react.
+
 ## 1.0.1
 * Added placeholders into documentation
 

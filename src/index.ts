@@ -63,7 +63,9 @@ Bot.on('ready',async()=>{
 
     try {
     let story = new Story(undefined,user.id);
-    let got = await story.get_settings(db)
+    let got = await story.get_settings(db);
+
+    if(reaction.message.id !== story.LastMessage) return;
 
     console.log(got,story)
     if(got === undefined) return;

@@ -14,7 +14,8 @@ async function db_init(db:SQL.Database<sqlite3.Database, sqlite3.Statement>){
       "Player" TEXT PRIMARY KEY,
       "CurrentFrame" TEXT NOT NULL,
       "Variables" TEXT NOT NULL DEFAULT '{}',
-      "Frames" TEXT NOT NULL DEFAULT '{}'
+      "Frames" TEXT NOT NULL DEFAULT '{}',
+      "LastMessage" TEXT
     ) WITHOUT ROWID;`
   ).catch(console.error)
   db.run(
