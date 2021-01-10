@@ -174,7 +174,7 @@ class Story {
 
 interface Frame {
   dialog:Dialog,
-  options:Option[]|undefined
+  options?:Option[]
 }
 
 interface Dialog {
@@ -189,7 +189,7 @@ interface Option {
   text:string,
   qualify?:Check[],
   varchanges?:Changes[],
-  gray:boolean|undefined
+  gray?:boolean
 }
 
 interface Check {
@@ -200,7 +200,7 @@ interface Check {
 
 interface Changes {
   var:string,
-  value:any,
+  value:number|string,
   type:'set'|'add'
 }
 

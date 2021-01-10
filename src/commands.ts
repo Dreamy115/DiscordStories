@@ -24,7 +24,7 @@ interface Param {
   name:string,
   type:'string'|'number'|'integer'|'url',
   description:string,
-  required?:undefined|true|false
+  required?:boolean
 }
 
 function get_command_usage(cmd:Command):string {
